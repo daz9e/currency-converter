@@ -7,9 +7,7 @@ services:
     restart: unless-stopped
     environment:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-      - DB_PATH=/data/bot.db
-    volumes:
-      - ./data:/data
+      - DEFAULT_CURRENCY=${DEFAULT_CURRENCY:-EUR}
     logging:
       driver: "json-file"
       options:
