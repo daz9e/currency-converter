@@ -94,7 +94,7 @@
 
               script = ''
                 export TELEGRAM_BOT_TOKEN=$(cat ${cfg.tokenFile})
-                exec ${self.packages.${pkgs.system}.default}/bin/money-convert
+                exec ${self.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/money-convert
               '';
             };
           };
