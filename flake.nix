@@ -14,7 +14,7 @@
       packages = forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          python = pkgs.python311;
+          python = pkgs.python312;
           pythonPackages = python.pkgs;
         in
         {
