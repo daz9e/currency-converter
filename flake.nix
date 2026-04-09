@@ -16,6 +16,33 @@
           pkgs = nixpkgs.legacyPackages.${system};
           python = pkgs.python312;
           pythonPackages = python.pkgs;
+          pythonTelegramBot = pythonPackages.buildPythonPackage rec {
+            pname = "python-telegram-bot";
+            version = "21.0";
+            pyproject = true;
+
+            src = pkgs.fetchFromGitHub {
+              owner = "python-telegram-bot";
+              repo = "python-telegram-bot";
+              tag = "v${version}";
+              hash = "sha256-95zqH59SAM9eThw7mMB6NtzTuBwhMxbzh0T86mgMnQQ=";
+            };
+
+            build-system = with pythonPackages; [
+              setuptools
+              hatchling
+            ];
+
+            dependencies = with pythonPackages; [
+              httpx
+            ];
+
+            pythonImportsCheck = [ "telegram" ];
+
+            # nixpkgs' package enables broader optional dependencies during checks.
+            # This app only needs the base library and pins 21.0 in requirements.txt.
+            doCheck = false;
+          };
         in
         {
           default = pythonPackages.buildPythonApplication {
@@ -26,7 +53,7 @@
             src = ./.;
 
             propagatedBuildInputs = with pythonPackages; [
-              python-telegram-bot
+              pythonTelegramBot
               requests
             ];
 
